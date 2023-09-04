@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 
 ### 
 # IMPLEMENT ME! REPLACE WITH YOUR ANSWER TO PART 1B
-OPTIMAL_STEP_SIZE = 1.0
+OPTIMAL_STEP_SIZE = 0.1
 ###
 
 def _parse_args():
@@ -35,13 +35,10 @@ def quadratic(x1, x2):
 
 
 def quadratic_grad(x1, x2):
-    """
-    Should return a numpy array containing the gradient of the quadratic function defined above evaluated at the point
-    :param x1: first coordinate
-    :param x2: second coordinate
-    :return: a two-dimensional numpy array containing the gradient
-    """
-    raise Exception("Implement me!")
+    gradient1 = 2 * (x1 - 1)
+    gradient2 = 2 * 8 * (x2 - 1)
+    return np.array([gradient1, gradient2])
+    
 
 
 def sgd_test_quadratic(args):
@@ -58,7 +55,7 @@ def sgd_test_quadratic(args):
         grad = quadratic_grad(curr_point[0], curr_point[1])
         if len(grad) != 2:
             raise Exception("Gradient must be a two-dimensional array (vector containing [df/dx1, df/dx2])")
-        next_point = curr_point - args.lr * grad
+        next_point = curr_point - OPTIMAL_STEP_SIZE * grad
         points_history.append(curr_point)
         print("Point after epoch %i: %s" % (iter, repr(next_point)))
         curr_point = next_point
