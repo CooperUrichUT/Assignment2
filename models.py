@@ -66,7 +66,9 @@ class NeuralSentimentClassifier(SentimentClassifier):
 
     def predict(self, ex_words: List[str], has_typos: bool):
         # find the index of each word using the word indexer in the NSC class
-        words_idx = [max(1, self.word_indexer.index_of(word)) for word in ex_words]
+        words_idx = []
+        for word in ex_words:
+            words_idx.append(max(1, self.word_indexer.index_of(word)))
         # create a torch.tensor of the word indexer, this makes for faster GPU times
         words_tensor=torch.tensor([words_idx])
         # calculate the y_probability using the nn.Module subclass
@@ -85,17 +87,19 @@ def train_deep_averaging_network(args, train_exs: List[SentimentExample], dev_ex
     classifier = NeuralSentimentClassifier(word_embeddings)
     word_indices = generate_word_indices(train_exs, classifier)
     ADAM = optim.Adam(classifier.model.parameters(), lr=0.001)
-    training_set = np.arange(len(train_exs))  # Use NumPy array
+    training_set = np.arange(len(train_exs))
+    epochs = 15
 
-    for epoch in range(15):
-        np.random.shuffle(training_set)  # Shuffle NumPy array
+    for epoch in range(epochs):
+        np.random.shuffle(training_set)
         total_loss = 0.0
         batch_x = []
         batch_y = []
         padding = 50
+        batch_size = 128
 
         for idx in training_set:
-            if len(batch_x) < 128:
+            if len(batch_x) < batch_size:
                 batch_x, batch_y = create_batch(idx, batch_x, batch_y, word_indices, train_exs, padding)
             else:
                 batch_x, batch_y, total_loss = process_batch(batch_x, batch_y, classifier, ADAM, total_loss)
@@ -105,31 +109,32 @@ def train_deep_averaging_network(args, train_exs: List[SentimentExample], dev_ex
 
         total_loss /= len(train_exs)
         print("Total loss on epoch %i: %f" % (epoch, total_loss))
-    
+
     return classifier
 
-
 def create_batch(idx, batch_x, batch_y, word_indices, train_exs, padding):
-    sent_pad = np.zeros(padding, dtype=np.int64)
     sent = word_indices[idx]
+    sent_pad = np.zeros(padding, dtype=np.int64)
     sent_pad[:min(padding, len(sent))] = sent[:min(padding, len(sent))]
     batch_x.append(sent_pad)
-    y = train_exs[idx].label
-    batch_y.append(y)
+    batch_y.append(train_exs[idx].label)
+
     return batch_x, batch_y
 
 def process_batch(batch_x, batch_y, classifier, ADAM, total_loss):
+    batch_x = np.array(batch_x)
+    batch_y = np.array(batch_y)
     classifier.model.train()
     ADAM.zero_grad()
-    batch_x = torch.tensor(batch_x)
+    batch_x = torch.tensor(batch_x, dtype=torch.long)
     probs = classifier.model.forward(batch_x)
-    target = torch.tensor(batch_y)
+    target = torch.tensor(batch_y, dtype=torch.long)
     loss = classifier.loss(probs, target)
     total_loss += loss.item()
     loss.backward()
     ADAM.step()
     batch_x = []
-    batch_y = []
+    batch_y =[]
     return batch_x, batch_y, total_loss
 
 def generate_word_indices(train_exs, ns_classifier):
@@ -148,15 +153,10 @@ def generate_word_indices(train_exs, ns_classifier):
 class DAN(nn.Module):
     def __init__(self, word_embeddings=None, inp=50, hid=32, out=2):
         super(DAN, self).__init__()
-        if word_embeddings is not None:
-            vocab = len(word_embeddings.vectors)
-            self.embeddings =nn.Embedding.from_pretrained(torch.from_numpy(word_embeddings.vectors), freeze=False)
+        self.embeddings =nn.Embedding.from_pretrained(torch.from_numpy(word_embeddings.vectors), freeze=False) if word_embeddings is not None else None
         self.V = nn.Linear(inp, hid)
         self.g = nn.Tanh()
-        #self.g = nn.ReLU()
         self.W = nn.Linear(hid, out)
-        #self.log_softmax = nn.LogSoftmax(dim=0)
-        # Initialize weights according to a formula due to Xavier Glorot.
         nn.init.xavier_uniform_(self.V.weight)
         nn.init.xavier_uniform_(self.W.weight)
 
