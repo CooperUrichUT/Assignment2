@@ -55,112 +55,82 @@ class NeuralSentimentClassifier(SentimentClassifier):
     method and you can optionally override predict_all if you want to use batching at inference time (not necessary,
     but may make things faster!)
     """
-    def __init__(self, vocab_size, embedding_dim, hidden_dim, word_embeddings):
-        super(NeuralSentimentClassifier, self).__init__()
-        self.DAN = DAN(word_embeddings, word_embeddings.get_embedding_length())
-        self.embedding = word_embeddings.get_initialized_embedding_layer()
+    def __init__(self, word_embeddings: WordEmbeddings):
+        SentimentClassifier.__init__(self)
         self.word_indexer = word_embeddings.word_indexer
-        self.criterion = nn.NLLLoss()
-        self.word_embeddings = word_embeddings
-        self.vocab_size = vocab_size
+        self.input = word_embeddings.get_embedding_length()
+        self.hidden= 32
+        self.output= 2
         self.loss = nn.CrossEntropyLoss()
-    
-    # Setting the model to train (not sure if we need this)    
-    # def train(self):
-    #     self.DAN.train()
-    # # Setting the model to evaluate (not sure if we need this either)
-    # def eval(self):
-    #     self.DAN.eval()
+        self.model = DAN(word_embeddings, self.input, self.hidden, self.output)
 
-    def loss_function(self, real, expected):
-        return self.loss(real, expected)   
-    
     def predict(self, ex_words: List[str], has_typos: bool):
-        index_list = [self.word_indexer.index_of(word) or 1 for word in ex_words]
-        tensor = torch.tensor(index_list)
-        y_probability = self.model.forward(tensor)
-        
-        # Return the index of the maximum probability for each example in the batch
-        return torch.argmax(y_probability, dim=1)
-       
+        # find the index of each word using the word indexer in the NSC class
+        words_idx = [max(1, self.word_indexer.index_of(word)) for word in ex_words]
+        # create a torch.tensor of the word indexer, this makes for faster GPU times
+        words_tensor=torch.tensor([words_idx])
+        # calculate the y_probability using the nn.Module subclass
+        y_probability = self.model.forward(words_tensor)
+        return torch.argmax(y_probability)
+
+    def loss(self, probs, target):
+        return self.loss(probs, target)
+    
+
 
 def train_deep_averaging_network(args, train_exs: List[SentimentExample], dev_exs: List[SentimentExample],
                                  word_embeddings: WordEmbeddings, train_model_for_typo_setting: bool) -> NeuralSentimentClassifier:
-    """
-    :param args: Command-line args so you can access them here
-    :param train_exs: training examples
-    :param dev_exs: development set, in case you wish to evaluate your model during training
-    :param word_embeddings: set of loaded word embeddings
-    :param train_model_for_typo_setting: True if we should train the model for the typo setting, False otherwise
-    :return: A trained NeuralSentimentClassifier model. Note: you can create an additional subclass of SentimentClassifier
-    and return an instance of that for the typo setting if you want; you're allowed to return two different model types
-    for the two settings.
+                                 
 
-    """
+    classifier = NeuralSentimentClassifier(word_embeddings)
+    word_indices = generate_word_indices(train_exs, classifier)
+    ADAM = optim.Adam(classifier.model.parameters(), lr=0.001)
+    training_set = np.arange(len(train_exs))  # Use NumPy array
 
-    # Data Preprocessing: Convert your training data into a format suitable for training. This may include tokenization, mapping words to indices, and creating batches of data.
-    # shuffle data to insure there is no overfitting
-    # Define your model
-    vocab_size = len(word_embeddings.vectors)
-    embedding_dim = word_embeddings.get_embedding_length()
-    hidden_dim = 100
-    print("Embedding length = ", word_embeddings.get_embedding_length())
-    model = NeuralSentimentClassifier(vocab_size, embedding_dim, hidden_dim, word_embeddings)
-    ADAM = optim.Adam(model.DAN.parameters(), lr=0.01)
-    sentences = [sentence for sentence in train_exs]
-    batch_size = 32
-    batches = []
-    dict_for_index = generate_word_indices(train_exs, model)
-    padding = 50
-
-    # Training loop
-    for epoch in range(25):
-        batch_x = np.empty((0, 50), dtype=np.int32)
-        batch_y = np.empty((0,), dtype=np.int32)
+    for epoch in range(15):
+        np.random.shuffle(training_set)  # Shuffle NumPy array
         total_loss = 0.0
-        for sentence in sentences:
-            if len(batch_x) < batch_size:
-                batch_x, batch_y = process_sentence(sentence, sentences, dict_for_index, train_exs, batch_x, batch_y, model, sentence.label)
-            else:  # len(batch_x) = batch_size
-                total_loss = process_batch(model, ADAM, batch_x, batch_y, total_loss)
+        batch_x = []
+        batch_y = []
+        padding = 50
 
-                # Combine batch_x and batch_y into a tuple
-                batches.append((batch_x.numpy(), np.array(batch_y)))
+        for idx in training_set:
+            if len(batch_x) < 128:
+                batch_x, batch_y = create_batch(idx, batch_x, batch_y, word_indices, train_exs, padding)
+            else:
+                batch_x, batch_y, total_loss = process_batch(batch_x, batch_y, classifier, ADAM, total_loss)
 
-                batch_x = np.empty((0, padding), dtype=np.int32)
-                batch_y = np.empty((0,), dtype=np.int32)
+        if batch_x:
+            batch_x, batch_y, total_loss = process_batch(batch_x, batch_y, classifier, ADAM, total_loss)
 
         total_loss /= len(train_exs)
         print("Total loss on epoch %i: %f" % (epoch, total_loss))
-
-    return model
-
-def process_batch(model, optimizer, batch_x, batch_y, total_loss):
-    model.DAN.train()
-    optimizer.zero_grad()
-    batch_x = torch.tensor(batch_x)
-    probs = model.DAN.forward(batch_x)
-    target = torch.tensor(batch_y)
-    loss = model.loss(probs, target)
-    total_loss += loss
-    loss.backward()
-    optimizer.step()
-
-    return total_loss
-
-def process_sentence(idx, ex_indices, word_indices, train_exs, batch_x, batch_y, model, label):
-    index_list = [max(model.word_indexer.index_of(word), 1) for word in idx.words]
-    padding = 50
-    sent_pad = np.zeros((padding,), dtype=np.int32)
-    # Padding
-    sent_pad[:min(padding, len(index_list))] = index_list[:min(padding, len(index_list))]
-    batch_x = np.vstack([batch_x, sent_pad])
     
+    return classifier
 
-    # Padding
-    batch_y = np.append(batch_y, label)
-    
+
+def create_batch(idx, batch_x, batch_y, word_indices, train_exs, padding):
+    sent_pad = np.zeros(padding, dtype=np.int64)
+    sent = word_indices[idx]
+    sent_pad[:min(padding, len(sent))] = sent[:min(padding, len(sent))]
+    batch_x.append(sent_pad)
+    y = train_exs[idx].label
+    batch_y.append(y)
     return batch_x, batch_y
+
+def process_batch(batch_x, batch_y, classifier, ADAM, total_loss):
+    classifier.model.train()
+    ADAM.zero_grad()
+    batch_x = torch.tensor(batch_x)
+    probs = classifier.model.forward(batch_x)
+    target = torch.tensor(batch_y)
+    loss = classifier.loss(probs, target)
+    total_loss += loss.item()
+    loss.backward()
+    ADAM.step()
+    batch_x = []
+    batch_y = []
+    return batch_x, batch_y, total_loss
 
 def generate_word_indices(train_exs, ns_classifier):
     word_indices = {}
@@ -175,50 +145,28 @@ def generate_word_indices(train_exs, ns_classifier):
 
     return word_indices
 
-
-
-# Model Initialization: Create an instance of the NeuralSentimentClassifier class, which includes initializing the neural network model, optimizer, and loss function. You'll use the pre-trained word embeddings from word_embeddings to initialize the embedding layer of the model.
-
-# Training Loop: Iterate through your training data in mini-batches. For each batch, perform the following steps:
-
-# a. Forward Pass: Pass the input data (word indices) through your model to get predictions.
-
-# b. Calculate Loss: Compute the loss between the predicted labels and the actual labels.
-
-# c. Backpropagation: Use backpropagation to compute gradients with respect to the loss.
-
-# d. Update Weights: Update the model weights using the optimizer (e.g., stochastic gradient descent) based on the computed gradients.
-
-# Validation: Optionally, evaluate your model on the development set (dev_exs) during training to monitor its performance. You can calculate metrics such as accuracy, precision, recall, or F1 score to assess how well your model is doing.
-
-# Training Termination: Decide when to stop training. This could be based on a fixed number of epochs or a criterion such as early stopping, where training stops if the model's performance on the development set stops improving.
-
-# Return Model: Once training is complete, return the trained NeuralSentimentClassifier model.
-
-
 class DAN(nn.Module):
-    def __init__(self, word_embedding_list, embedding_layers=300):
+    def __init__(self, word_embeddings=None, inp=50, hid=32, out=2):
         super(DAN, self).__init__()
-        # Establishing all of the necessary 
-        self.word_embeddings = nn.Embedding.from_pretrained(torch.from_numpy(word_embedding_list.vectors), freeze=False) if word_embedding_list is not None else None
-        self.hidden_layers= 32
-        self.binary_classifier = 2
-        self.linear_layer_1 = nn.Linear(embedding_layers, self.hidden_layers)
-        self.linear_layer_2 = nn.Linear(self.hidden_layers, self.binary_classifier)
-        self.activation_function = nn.Tanh()
-        # weight vectors for predicting and training
-        nn.init.xavier_uniform_(self.linear_layer_1.weight)
-        nn.init.xavier_uniform_(self.linear_layer_2.weight)
+        if word_embeddings is not None:
+            vocab = len(word_embeddings.vectors)
+            self.embeddings =nn.Embedding.from_pretrained(torch.from_numpy(word_embeddings.vectors), freeze=False)
+        self.V = nn.Linear(inp, hid)
+        self.g = nn.Tanh()
+        #self.g = nn.ReLU()
+        self.W = nn.Linear(hid, out)
+        #self.log_softmax = nn.LogSoftmax(dim=0)
+        # Initialize weights according to a formula due to Xavier Glorot.
+        nn.init.xavier_uniform_(self.V.weight)
+        nn.init.xavier_uniform_(self.W.weight)
 
-    def forward(self, input_indices):
-        input_indices = input_indices.to(torch.float32) 
-        if self.word_embeddings is not None:
-             return self.linear_layer_2(self.activation_function(self.linear_layer_1(input_indices)))
-        
-        # predictions are made using arithmatic mean (per slide notes)
-        # this will only trigger if the word embedding list is none null
-        arithmatic_mean = torch.mean(self.word_embeddings(input_indices), dim=1, keepdim=False).float()
-        return self.linear_layer_2(self.activation_function(self.linear_layer_1(arithmatic_mean)))
+    def forward(self, x):
+        if self.embeddings is not None :
+            word_embedding = self.embeddings(x) 
+            mean = torch.mean(word_embedding, dim=1, keepdim=False).float()
+            return self.W(self.g(self.V(mean)))
+        else:
+            return self.W(self.g(self.V(x)))
 
        
 
