@@ -58,11 +58,8 @@ class NeuralSentimentClassifier(SentimentClassifier):
     def __init__(self, word_embeddings: WordEmbeddings):
         SentimentClassifier.__init__(self)
         self.word_indexer = word_embeddings.word_indexer
-        self.input = word_embeddings.get_embedding_length()
-        self.hidden= 32
-        self.output= 2
         self.loss = nn.CrossEntropyLoss()
-        self.model = DAN(word_embeddings, self.input, self.hidden, self.output)
+        self.model = DAN(word_embeddings, word_embeddings.get_embedding_length(), 32, 2)
 
     def predict(self, ex_words: List[str], has_typos: bool):
         # find the index of each word using the word indexer in the NSC class
@@ -72,8 +69,8 @@ class NeuralSentimentClassifier(SentimentClassifier):
         # create a torch.tensor of the word indexer, this makes for faster GPU times
         words_tensor=torch.tensor([words_idx])
         # calculate the y_probability using the nn.Module subclass
-        y_probability = self.model.forward(words_tensor)
-        return torch.argmax(y_probability)
+        y_probabilities = self.model.forward(words_tensor)
+        return torch.argmax(y_probabilities)
 
     def loss(self, probs, target):
         return self.loss(probs, target)
@@ -95,12 +92,11 @@ def train_deep_averaging_network(args, train_exs: List[SentimentExample], dev_ex
         total_loss = 0.0
         batch_x = []
         batch_y = []
-        padding = 50
         batch_size = 128
 
         for idx in training_set:
             if len(batch_x) < batch_size:
-                batch_x, batch_y = create_batch(idx, batch_x, batch_y, word_indices, train_exs, padding)
+                batch_x, batch_y = create_batch(idx, batch_x, batch_y, word_indices, train_exs, padding=50)
             else:
                 batch_x, batch_y, total_loss = process_batch(batch_x, batch_y, classifier, ADAM, total_loss)
 
@@ -160,14 +156,11 @@ class DAN(nn.Module):
         nn.init.xavier_uniform_(self.V.weight)
         nn.init.xavier_uniform_(self.W.weight)
 
-    def forward(self, x):
-        if self.embeddings is not None :
-            word_embedding = self.embeddings(x) 
-            mean = torch.mean(word_embedding, dim=1, keepdim=False).float()
-            return self.W(self.g(self.V(mean)))
-        else:
-            return self.W(self.g(self.V(x)))
-
-       
-
-
+    def forward(self, index):
+        index = self.embeddings(index) if self.embeddings is not None else None
+        mean = torch.mean(index, dim=1).float()
+        output = self.V(mean)
+        output = self.g(output)
+        output = self.W(output)
+        
+        return output

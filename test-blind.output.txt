@@ -6,7 +6,7 @@ tensor(1)	Offers that rare combination of entertainment and education .
 
 tensor(0)	Perhaps no picture ever made has more literally showed that the road to hell is paved with good intentions .
 
-tensor(1)	Steers turns in a snappy screenplay that curls at the edges ; it 's so clever you want to hate it .
+tensor(0)	Steers turns in a snappy screenplay that curls at the edges ; it 's so clever you want to hate it .
 
 tensor(1)	But he somehow pulls it off .
 
@@ -72,7 +72,7 @@ tensor(1)	Much of the way , though , this is a refreshingly novel ride .
 
 tensor(1)	Fuller would surely have called this gutsy and at times exhilarating movie a great yarn .
 
-tensor(1)	The film makes a strong case for the importance of the musicians in creating the Motown sound .
+tensor(0)	The film makes a strong case for the importance of the musicians in creating the Motown sound .
 
 tensor(1)	Gosling provides an amazing performance that dwarfs everything else in the film .
 
@@ -98,7 +98,7 @@ tensor(0)	Everytime you think Undercover Brother has run out of steam , it finds
 
 tensor(1)	A pleasant enough movie , held together by skilled ensemble actors .
 
-tensor(1)	This is the best American movie about troubled teens since 1998 's Whatever .
+tensor(0)	This is the best American movie about troubled teens since 1998 's Whatever .
 
 tensor(1)	The animated subplot keenly depicts the inner struggles of our adolescent heroes - insecure , uncontrolled , and intense .
 
@@ -122,7 +122,7 @@ tensor(1)	Gollum 's ` performance ' is incredible !
 
 tensor(0)	If this movie were a book , it would be a page-turner , you ca n't wait to see what happens next .
 
-tensor(0)	Haneke challenges us to confront the reality of sexual aberration .
+tensor(1)	Haneke challenges us to confront the reality of sexual aberration .
 
 tensor(0)	Absorbing and disturbing -- perhaps more disturbing than originally intended -- but a little clarity would have gone a long way .
 
@@ -328,7 +328,7 @@ tensor(0)	Those outside show business will enjoy a close look at people they do 
 
 tensor(0)	Watching Beanie and his gang put together his slasher video from spare parts and borrowed materials is as much fun as it must have been for them to make it .
 
-tensor(0)	Children may not understand everything that happens -- I 'm not sure even Miyazaki himself does -- but they will almost certainly be fascinated , and undoubtedly delighted .
+tensor(1)	Children may not understand everything that happens -- I 'm not sure even Miyazaki himself does -- but they will almost certainly be fascinated , and undoubtedly delighted .
 
 tensor(1)	A fascinating and fun film .
 
@@ -360,7 +360,7 @@ tensor(1)	A somewhat crudely constructed but gripping , questing look at a perso
 
 tensor(1)	It extends the writings of Jean Genet and John Rechy , the films of Fassbinder , perhaps even the nocturnal works of Goya .
 
-tensor(0)	Narc may not get an ` A ' for originality , but it wears its B-movie heritage like a badge of honor .
+tensor(1)	Narc may not get an ` A ' for originality , but it wears its B-movie heritage like a badge of honor .
 
 tensor(1)	With the film 's striking ending , one realizes that we have a long way to go before we fully understand all the sexual permutations involved .
 
@@ -454,7 +454,7 @@ tensor(1)	A well-made and often lovely depiction of the mysteries of friendship 
 
 tensor(1)	The Transporter is as lively and as fun as it is unapologetically dumb
 
-tensor(0)	As a witness to several Greek-American weddings -- but , happily , a victim of none -- I can testify to the comparative accuracy of Ms. Vardalos ' memories and insights .
+tensor(1)	As a witness to several Greek-American weddings -- but , happily , a victim of none -- I can testify to the comparative accuracy of Ms. Vardalos ' memories and insights .
 
 tensor(1)	Has it ever been possible to say that Williams has truly inhabited a character ?
 
@@ -732,7 +732,7 @@ tensor(1)	... a polished and relatively sincere piece of escapism .
 
 tensor(0)	The whole cast looks to be having so much fun with the slapstick antics and silly street patois , tossing around obscure expressions like Bellini and Mullinski , that the compact 86 minutes breezes by .
 
-tensor(1)	It 's a sly wink to The Others without becoming a postmodern joke , made creepy by its `` men in a sardine can '' warped logic .
+tensor(0)	It 's a sly wink to The Others without becoming a postmodern joke , made creepy by its `` men in a sardine can '' warped logic .
 
 tensor(0)	Still pretentious and filled with subtext , but entertaining enough at ` face value ' to recommend to anyone looking for something different .
 
@@ -740,7 +740,7 @@ tensor(0)	Call me a wimp , but I cried , not once , but three times in this anim
 
 tensor(0)	Notorious C.H.O. has oodles of vulgar highlights .
 
-tensor(0)	An inspiring and heart-affecting film about the desperate attempts of Vietnamese refugees living in U.S. relocation camps to keep their hopes alive in 1975 .
+tensor(1)	An inspiring and heart-affecting film about the desperate attempts of Vietnamese refugees living in U.S. relocation camps to keep their hopes alive in 1975 .
 
 tensor(1)	The level of maturity displayed by this 33-year-old first-time feature director is astonishing , considering her inexperience and her subject matter .
 
@@ -780,7 +780,7 @@ tensor(1)	The movie is one of the best examples of artful Large Format filmmakin
 
 tensor(1)	Well-written , nicely acted and beautifully shot and scored , the film works on several levels , openly questioning social mores while ensnaring the audience with its emotional pull .
 
-tensor(1)	Jason X has cheesy effects and a hoary plot , but its macabre , self-deprecating sense of humor makes up for a lot .
+tensor(0)	Jason X has cheesy effects and a hoary plot , but its macabre , self-deprecating sense of humor makes up for a lot .
 
 tensor(1)	An impressive if flawed effort that indicates real talent .
 
@@ -798,7 +798,7 @@ tensor(1)	Not too far below the gloss you can still feel director Denis Villeneu
 
 tensor(0)	As if to prove a female director can make a movie with no soft edges , Kathryn Bigelow offers no sugar-coating or interludes of lightness .
 
-tensor(1)	Her film is unrelentingly claustrophobic and unpleasant .
+tensor(0)	Her film is unrelentingly claustrophobic and unpleasant .
 
 tensor(1)	-LRB- Villeneuve -RRB- seems to realize intuitively that even morality is reduced to an option by the ultimate mysteries of life and death .
 
@@ -854,11 +854,11 @@ tensor(1)	Few films this year have been as resolute in their emotional nakedness
 
 tensor(1)	Exquisitely acted and masterfully if preciously interwoven ... -LRB- the film -RRB- addresses in a fascinating , intelligent manner the intermingling of race , politics and local commerce .
 
-tensor(1)	This is a very fine movie -- go see it .
+tensor(0)	This is a very fine movie -- go see it .
 
 tensor(1)	As shaky as the plot is , Kaufman 's script is still memorable for some great one-liners .
 
-tensor(0)	Despite its flaws , Secretary stays in your head and makes you question your own firmly held positions .
+tensor(1)	Despite its flaws , Secretary stays in your head and makes you question your own firmly held positions .
 
 tensor(1)	One of those rare , exhilarating cinematic delights that gets even better in hindsight , as you mull over its every nuance in your mind .
 
@@ -908,7 +908,7 @@ tensor(1)	A pleasant romantic comedy .
 
 tensor(1)	Greengrass has delivered an undoubted stylistic tour-de-force , and has managed elements such as sound and cinematography with skill
 
-tensor(1)	Smith 's point is simple and obvious -- people 's homes are extensions of themselves , and particularly eccentric people have particularly eccentric living spaces -- but his subjects are charmers .
+tensor(0)	Smith 's point is simple and obvious -- people 's homes are extensions of themselves , and particularly eccentric people have particularly eccentric living spaces -- but his subjects are charmers .
 
 tensor(1)	A romantic comedy , yes , but one with characters who think and talk about their goals , and are working on hard decisions .
 
@@ -938,7 +938,7 @@ tensor(1)	Hayek is stunning as Frida and ... a star-making project .
 
 tensor(1)	It 's both a necessary political work and a fascinating documentary ...
 
-tensor(0)	Hilarious , acidic Brit comedy .
+tensor(1)	Hilarious , acidic Brit comedy .
 
 tensor(1)	As a revenge thriller , the movie is serviceable , but it does n't really deliver the delicious guilty pleasure of the better film versions .
 
@@ -952,7 +952,7 @@ tensor(1)	A gentle blend of present day testimonials , surviving footage of Burs
 
 tensor(1)	A Generation X artifact , capturing a brief era of insanity in the sports arena that surely can not last .
 
-tensor(1)	An uneven but intriguing drama that is part homage and part remake of the Italian masterpiece .
+tensor(0)	An uneven but intriguing drama that is part homage and part remake of the Italian masterpiece .
 
 tensor(1)	Windtalkers celebrates the human spirit and packs an emotional wallop .
 
@@ -1022,7 +1022,7 @@ tensor(1)	... ambition is in short supply in the cinema , and Egoyan tackles his
 
 tensor(0)	An impossible romance , but we root for the patronized Iranian lad .
 
-tensor(1)	Like Dickens with his passages , McGrath crafts quite moving scenes throughout his resolutely dramatic variation on the novel .
+tensor(0)	Like Dickens with his passages , McGrath crafts quite moving scenes throughout his resolutely dramatic variation on the novel .
 
 tensor(1)	There 's a disreputable air about the whole thing , and that 's what makes it irresistible .
 
@@ -1038,9 +1038,9 @@ tensor(1)	Cute , funny , heartwarming digitally animated feature film with plent
 
 tensor(1)	very solid , very watchable first feature for director Peter Sheridan
 
-tensor(1)	a budget affair that exposes the generally sad existence of the Bedouins while providing a precious twinkle of insight into their lives .
+tensor(0)	a budget affair that exposes the generally sad existence of the Bedouins while providing a precious twinkle of insight into their lives .
 
-tensor(1)	It suggests the wide-ranging effects of media manipulation , from the kind of reporting that is done by the supposedly liberal media ... to the intimate and ultimately tragic heartache of maverick individuals like Hatfield and Hicks .
+tensor(0)	It suggests the wide-ranging effects of media manipulation , from the kind of reporting that is done by the supposedly liberal media ... to the intimate and ultimately tragic heartache of maverick individuals like Hatfield and Hicks .
 
 tensor(1)	Workmanlike , maybe , but still a film with all the elements that made the other three great , scary times at the movies .
 
@@ -1152,7 +1152,7 @@ tensor(1)	Goyer 's screenplay and direction are thankfully understated , and he 
 
 tensor(1)	Binoche and Magimel are perfect in these roles .
 
-tensor(0)	When your leading ladies are a couple of screen-eating dominatrixes like Goldie Hawn and Susan Sarandon at their raunchy best , even hokum goes down easily .
+tensor(1)	When your leading ladies are a couple of screen-eating dominatrixes like Goldie Hawn and Susan Sarandon at their raunchy best , even hokum goes down easily .
 
 tensor(1)	While Undercover Brother is definitely one for the masses , it 's also full of sharp , smart satire .
 
@@ -1314,7 +1314,7 @@ tensor(1)	Nervy and sensitive , it taps into genuine artistic befuddlement , and
 
 tensor(1)	A marvellous journey from childhood idealism to adolescent self-absorption .
 
-tensor(1)	The film is just a big , gorgeous , mind-blowing , breath-taking mess .
+tensor(0)	The film is just a big , gorgeous , mind-blowing , breath-taking mess .
 
 tensor(1)	Sharp , lively , funny and ultimately sobering film .
 
@@ -1340,7 +1340,7 @@ tensor(1)	The film 's real appeal wo n't be to Clooney fans or adventure buffs ,
 
 tensor(1)	The fact that The Rookie is a nearly impeccable cinematic experience -- and a wonderful all-ages triumph besides -- is a miracle akin to the story the film portrays .
 
-tensor(1)	A deviant topical comedy which is funny from start to finish .
+tensor(0)	A deviant topical comedy which is funny from start to finish .
 
 tensor(1)	A startling and fresh examination of how the bike still remains an ambiguous icon in Chinese society .
 
@@ -1364,7 +1364,7 @@ tensor(0)	An amazing and incendiary movie that dives straight into the rough wat
 
 tensor(0)	About nowhere kids who appropriated turfs as they found them and become self-made celebrity athletes -- a low-down version of the American dream .
 
-tensor(1)	Occasionally , in the course of reviewing art-house obscurities and slam-bam action flicks , a jaded critic smacks into something truly new .
+tensor(0)	Occasionally , in the course of reviewing art-house obscurities and slam-bam action flicks , a jaded critic smacks into something truly new .
 
 tensor(0)	A miniscule little bleep on the film radar , but one that many more people should check out
 
@@ -1424,13 +1424,13 @@ tensor(1)	Earns its laughs from stock redneck ` types ' and from the many , many
 
 tensor(1)	A real story about real people living their lives concerned about the future of an elderly , mentally handicapped family member .
 
-tensor(0)	It 's absolutely spooky how Lillard channels the Shagster right down to the original Casey Kasem-furnished voice .
+tensor(1)	It 's absolutely spooky how Lillard channels the Shagster right down to the original Casey Kasem-furnished voice .
 
 tensor(1)	A dream cast of solid female talent who build a seamless ensemble .
 
 tensor(0)	There is n't a weak or careless performance amongst them .
 
-tensor(1)	Smart science fiction for grown-ups , with only a few false steps along the way .
+tensor(0)	Smart science fiction for grown-ups , with only a few false steps along the way .
 
 tensor(1)	It 's a refreshing change from the self-interest and paranoia that shape most American representations of Castro .
 
@@ -1536,7 +1536,7 @@ tensor(0)	Not a bad journey at all .
 
 tensor(1)	Sits uneasily as a horror picture ... but finds surprising depth in its look at the binds of a small family .
 
-tensor(1)	Windtalkers blows this way and that , but there 's no mistaking the filmmaker in the tall grass , true to himself .
+tensor(0)	Windtalkers blows this way and that , but there 's no mistaking the filmmaker in the tall grass , true to himself .
 
 tensor(1)	There is a refreshing absence of cynicism in Stuart Little 2 -- quite a rarity , even in the family film market .
 
@@ -1570,7 +1570,7 @@ tensor(1)	A film that takes you inside the rhythms of its subject : You experien
 
 tensor(0)	The movie exists for its soccer action and its fine acting .
 
-tensor(0)	The film starts out as competent but unremarkable ... and gradually grows into something of considerable power .
+tensor(1)	The film starts out as competent but unremarkable ... and gradually grows into something of considerable power .
 
 tensor(1)	Nothing Denis has made before , like Beau Travil and Nenette et Boni , could prepare us for this gory , perverted , sex-soaked riff on the cannibal genre .
 
@@ -1590,7 +1590,7 @@ tensor(1)	... a cute and sometimes side-splittingly funny blend of Legally Blond
 
 tensor(0)	Dazzling and sugar-sweet , a blast of shallow magnificence that only sex , scandal , and a chorus line of dangerous damsels can deliver .
 
-tensor(0)	Japan 's premier stylist of sex and blood hits audiences with what may be his most demented film to date .
+tensor(1)	Japan 's premier stylist of sex and blood hits audiences with what may be his most demented film to date .
 
 tensor(1)	Culkin , who 's in virtually every scene , shines as a young man who uses sarcastic lies like a shield .
 
@@ -1704,7 +1704,7 @@ tensor(1)	My oh my , is this an invigorating , electric movie .
 
 tensor(1)	The two leads chomp considerably more scenery with their acting than fire-breathing monsters barbecue with their breath ...
 
-tensor(0)	Cedar takes a very open-minded approach to this sensitive material , showing impressive control , both visually and in the writing .
+tensor(1)	Cedar takes a very open-minded approach to this sensitive material , showing impressive control , both visually and in the writing .
 
 tensor(1)	Biggie and Tupac is so single-mindedly daring , it puts far more polished documentaries to shame .
 
@@ -1722,11 +1722,11 @@ tensor(1)	A candid and often fascinating documentary about a Pentecostal church 
 
 tensor(1)	Fans of the animated wildlife adventure show will be in warthog heaven ; others need not necessarily apply .
 
-tensor(0)	Without resorting to hyperbole , I can state that Kissing Jessica Stein may be the best same-sex romance I have seen .
+tensor(1)	Without resorting to hyperbole , I can state that Kissing Jessica Stein may be the best same-sex romance I have seen .
 
 tensor(0)	Nolan bravely treads where few American films dare to delve -- into the world of ambivalence and ambiguity ...
 
-tensor(0)	Unlike the nauseating fictions peddled by such ` Have-yourself-a-happy-little-Holocaust ' movies as Life Is Beautiful and Jakob the Liar , The Grey Zone is honest enough to deny the possibility of hope in Auschwitz .
+tensor(1)	Unlike the nauseating fictions peddled by such ` Have-yourself-a-happy-little-Holocaust ' movies as Life Is Beautiful and Jakob the Liar , The Grey Zone is honest enough to deny the possibility of hope in Auschwitz .
 
 tensor(1)	A potent allegorical love story .
 
@@ -1770,7 +1770,7 @@ tensor(0)	Fine acting but there is no sense of connecting the dots , just dots .
 
 tensor(1)	A blessed gift to film geeks and historians .
 
-tensor(0)	It took 19 predecessors to get THIS ?
+tensor(1)	It took 19 predecessors to get THIS ?
 
 tensor(1)	Thoughtful , even stinging at times , and lots of fun .
 
@@ -1910,7 +1910,7 @@ tensor(0)	A movie that , rather than skip along the Seine , more or less slogs i
 
 tensor(0)	Shot perhaps ` artistically ' with handheld cameras and apparently no movie lights by Joaquin Baca-Asay , the low-budget production swings annoyingly between vertigo and opacity .
 
-tensor(1)	Imagine a really bad community theater production of West Side Story without the songs .
+tensor(0)	Imagine a really bad community theater production of West Side Story without the songs .
 
 tensor(0)	Soul is what 's lacking in every character in this movie and , subsequently , the movie itself .
 
@@ -1950,7 +1950,7 @@ tensor(1)	She lists ingredients , but never mixes and stirs .
 
 tensor(0)	Audiences can be expected to suspend their disbelief only so far -- and that does not include the 5 o'clock shadow on the tall wooden kid as he skips off to school .
 
-tensor(1)	To imagine the life of Harry Potter as a martial arts adventure told by a lobotomized Woody Allen is to have some idea of the fate that lies in store for moviegoers lured to the mediocrity that is Kung Pow : Enter the Fist .
+tensor(0)	To imagine the life of Harry Potter as a martial arts adventure told by a lobotomized Woody Allen is to have some idea of the fate that lies in store for moviegoers lured to the mediocrity that is Kung Pow : Enter the Fist .
 
 tensor(0)	It delivers some chills and sustained unease , but flounders in its quest for Deeper Meaning .
 
@@ -2012,7 +2012,7 @@ tensor(0)	A sermonizing and lifeless paean to teenage dullards .
 
 tensor(0)	Before long , the film starts playing like General Hospital crossed with a Saturday Night Live spoof of Dog Day Afternoon .
 
-tensor(1)	The charms of willful eccentricity , at least as evidenced by this latest cinematic essay , are beginning to wear a bit thin .
+tensor(0)	The charms of willful eccentricity , at least as evidenced by this latest cinematic essay , are beginning to wear a bit thin .
 
 tensor(0)	Instead of accurately accounting a terrible true story , the film 's more determined to become the next Texas Chainsaw Massacre .
 
@@ -2074,7 +2074,7 @@ tensor(0)	If this is an example of the type of project that Robert Redford 's la
 
 tensor(0)	Pumpkin sits in a patch somewhere between mirthless Todd Solondzian satire and callow student film .
 
-tensor(1)	Not so much funny as aggressively sitcom-cute , it 's full of throwaway one-liners , not-quite jokes , and a determined TV amiability that Allen personifies .
+tensor(0)	Not so much funny as aggressively sitcom-cute , it 's full of throwaway one-liners , not-quite jokes , and a determined TV amiability that Allen personifies .
 
 tensor(0)	It 's just incredibly dull .
 
@@ -2300,7 +2300,7 @@ tensor(0)	... an unimaginative , nasty , glibly cynical piece of work .
 
 tensor(1)	It is also , at times , curiously moving .
 
-tensor(0)	The tug-of-war at the core of Beijing Bicycle becomes weighed down with agonizing contrivances , overheated pathos and long , wistful gazes .
+tensor(1)	The tug-of-war at the core of Beijing Bicycle becomes weighed down with agonizing contrivances , overheated pathos and long , wistful gazes .
 
 tensor(0)	Vile and tacky are the two best adjectives to describe Ghost Ship .
 
@@ -2456,7 +2456,7 @@ tensor(0)	Still , this thing feels flimsy and ephemeral .
 
 tensor(1)	Diane Lane shines in Unfaithful .
 
-tensor(1)	Almost everything else is wan .
+tensor(0)	Almost everything else is wan .
 
 tensor(0)	Rather , you 'll have to wrestle disbelief to the ground and then apply the chloroform-soaked handkerchief .
 
@@ -2476,7 +2476,7 @@ tensor(0)	Even the unwatchable Soapdish is more original .
 
 tensor(0)	The movie bounces all over the map .
 
-tensor(1)	But buying into sham truths and routine `` indie '' filmmaking , Freundlich has made just another safe movie .
+tensor(0)	But buying into sham truths and routine `` indie '' filmmaking , Freundlich has made just another safe movie .
 
 tensor(0)	It 's not horrible , just horribly mediocre .
 
@@ -2488,7 +2488,7 @@ tensor(0)	This self-infatuated goofball is far from the only thing wrong with th
 
 tensor(0)	The enormous comic potential of an oafish idiot impersonating an aristocrat remains sadly unrealized .
 
-tensor(0)	Begins as a promising meditation on one of America 's most durable obsessions but winds up as a slender cinematic stunt .
+tensor(1)	Begins as a promising meditation on one of America 's most durable obsessions but winds up as a slender cinematic stunt .
 
 tensor(0)	A monster combat thriller as impersonal in its relentlessness as the videogame series that inspired it .
 
@@ -2558,7 +2558,7 @@ tensor(0)	As -LRB- the characters -RRB- get more depressed , the story gets more
 
 tensor(0)	The acting by the over-25s lacks spark , with Csokas particularly unconnected .
 
-tensor(0)	Though Howard demonstrates a great eye as a director , this Southern Gothic drama is sadly a tough sit , with an undeveloped narrative and enough flashbacks and heavy-handed metaphors to choke a horse -- or at least slow him down to a canter .
+tensor(1)	Though Howard demonstrates a great eye as a director , this Southern Gothic drama is sadly a tough sit , with an undeveloped narrative and enough flashbacks and heavy-handed metaphors to choke a horse -- or at least slow him down to a canter .
 
 tensor(0)	Falters when it takes itself too seriously and when it depends too heavily on its otherwise talented cast to clown in situations that are n't funny .
 
@@ -2616,7 +2616,7 @@ tensor(0)	Not a movie but a live-action agitprop cartoon so shameless and coarse
 
 tensor(0)	Feels like six different movies fighting each other for attention .
 
-tensor(0)	Life is a crock -- or something like it .
+tensor(1)	Life is a crock -- or something like it .
 
 tensor(0)	Made by jackasses for jackasses .
 
@@ -2628,7 +2628,7 @@ tensor(0)	Bartleby is a one-joke movie , and a bad joke at that .
 
 tensor(0)	Given that both movies expect us to root for convicted violent felons over those assigned to protect us from same , we need every bit of sympathy the cons can muster ; this time , there is n't much .
 
-tensor(0)	A bravura exercise in emptiness .
+tensor(1)	A bravura exercise in emptiness .
 
 tensor(0)	Philip K. Dick must be turning in his grave , along with my stomach .
 
@@ -2670,7 +2670,7 @@ tensor(1)	A real clunker .
 
 tensor(0)	A dreary rip-off of Goodfellas that serves as a muddled and offensive cautionary tale for Hispanic Americans .
 
-tensor(1)	The picture , scored by a perversely cheerful Marcus Miller accordion\/harmonica\/banjo abomination , is a monument to bad in all its florid variety .
+tensor(0)	The picture , scored by a perversely cheerful Marcus Miller accordion\/harmonica\/banjo abomination , is a monument to bad in all its florid variety .
 
 tensor(0)	Good for a few unintentional laughs , `` Extreme Ops '' was obviously made for the `` XXX '' crowd , people who enjoy mindless action without the benefit of decent acting , writing , and direction .
 
@@ -2692,11 +2692,11 @@ tensor(1)	The only thing in Pauline and Paulette that you have n't seen before i
 
 tensor(1)	If you 're looking for comedy to be served up , better look elsewhere .
 
-tensor(0)	It virtually defines a comedy that 's strongly mediocre , with funny bits surfacing every once in a while .
+tensor(1)	It virtually defines a comedy that 's strongly mediocre , with funny bits surfacing every once in a while .
 
 tensor(0)	An instant candidate for worst movie of the year .
 
-tensor(0)	Like a tone-deaf singer at a benefit concert , John Q. is a bad movie appearing on behalf of a good cause .
+tensor(1)	Like a tone-deaf singer at a benefit concert , John Q. is a bad movie appearing on behalf of a good cause .
 
 tensor(0)	Adam Sandler is to Gary Cooper what a gnat is to a racehorse .
 
@@ -2808,7 +2808,7 @@ tensor(0)	Never Again swings between false sentiment and unfunny madcap comedy a
 
 tensor(0)	the story itself is uninteresting , and the songs are painfully undistinguished : They Might Be Giants ' So to Be One of Us may be the most tuneless tune ever composed .
 
-tensor(0)	Technically , the film is about as interesting as an insurance commercial .
+tensor(1)	Technically , the film is about as interesting as an insurance commercial .
 
 tensor(0)	The title 's lameness should clue you in on how bad the movie is .
 
@@ -2870,7 +2870,7 @@ tensor(1)	But here 's the real damn : It is n't funny , either .
 
 tensor(0)	Quick : who wants to see a comedy about shoddy airport security ?
 
-tensor(1)	What you get with Empire is a movie you 've seen many times before , repackaged as new material because there is a Latino in the lead .
+tensor(0)	What you get with Empire is a movie you 've seen many times before , repackaged as new material because there is a Latino in the lead .
 
 tensor(0)	Cho 's fans are sure to be entertained ; it 's only fair in the interest of full disclosure to say that -- on the basis of this film alone -- I 'm not one of them .
 
@@ -2944,7 +2944,7 @@ tensor(0)	Intended to be a comedy about relationships , this wretched work falls
 
 tensor(0)	Director Brian Levant , who never strays far from his sitcom roots , skates blithely from one implausible situation to another , pausing only to tie up loose ends with more bows than you 'll find on a French poodle .
 
-tensor(0)	... perhaps the heaviest , most joyless movie ever made about giant dragons taking over the world .
+tensor(1)	... perhaps the heaviest , most joyless movie ever made about giant dragons taking over the world .
 
 tensor(0)	Suggests puns about ingredients and soup and somebody being off their noodle , but let 's just say the ingredients do n't quite add up to a meal .
 
@@ -2984,7 +2984,7 @@ tensor(1)	Truth to tell , if you 've seen more than half-a-dozen horror films , 
 
 tensor(0)	Abandons all pretense of creating historical context and waltzes off into a hectic soap about the ups and downs of the heavy breathing between the two artists .
 
-tensor(1)	Even die-hard fans of Japanese animation ... will find this one a challenge .
+tensor(0)	Even die-hard fans of Japanese animation ... will find this one a challenge .
 
 tensor(0)	Filmmakers have to dig deep to sink this low .
 
@@ -3048,7 +3048,7 @@ tensor(0)	This film looks like it was produced in 1954 , shelved for 48 years , 
 
 tensor(0)	Propelled not by characters but by caricatures .
 
-tensor(1)	There is not an ounce of honesty in the entire production .
+tensor(0)	There is not an ounce of honesty in the entire production .
 
 tensor(0)	This extremely unfunny film clocks in at 80 minutes , but feels twice as long .
 
@@ -3120,7 +3120,7 @@ tensor(0)	Bad beyond belief and ridiculous beyond description .
 
 tensor(0)	Most of the action setups are incoherent .
 
-tensor(1)	Liman , of Swingers and Go , makes his big-budget action film debut something of a clunker as he delivers a long , low-heat chase , interrupted by a middling car chase .
+tensor(0)	Liman , of Swingers and Go , makes his big-budget action film debut something of a clunker as he delivers a long , low-heat chase , interrupted by a middling car chase .
 
 tensor(0)	... surprisingly inert for a movie in which the main character travels back and forth between epochs .
 
@@ -3164,7 +3164,7 @@ tensor(1)	This may be the dumbest , sketchiest movie on record about an aspiring
 
 tensor(0)	Succumbs to the same kind of maudlin , sentimental mysticism that mars the Touched by an Angel school of non-God spiritual-uplift movies .
 
-tensor(1)	A harmless and mildly amusing family comedy .
+tensor(0)	A harmless and mildly amusing family comedy .
 
 tensor(0)	What was subtle and mystifying in the novella is now broad and farcical .
 
@@ -3172,7 +3172,7 @@ tensor(1)	The kids often appear to be reading the lines and are incapable of con
 
 tensor(0)	`` Men in Black II , '' has all the earmarks of a sequel .
 
-tensor(1)	Sucking all the ` classic ' out of Robert Louis Stevenson 's Treasure Island and filling the void with sci-fi video game graphics and Disney-fied adolescent angst ...
+tensor(0)	Sucking all the ` classic ' out of Robert Louis Stevenson 's Treasure Island and filling the void with sci-fi video game graphics and Disney-fied adolescent angst ...
 
 tensor(0)	While Super Troopers is above Academy standards , its quintet of writers could still use some more schooling .
 
@@ -3216,7 +3216,7 @@ tensor(0)	fear dot com is so rambling and disconnected it never builds any suspe
 
 tensor(1)	It feels like a community theater production of a great Broadway play : Even at its best , it will never hold a candle to the original .
 
-tensor(0)	It 's the kind of movie you ca n't quite recommend because it is all windup and not much of a pitch , yet you ca n't bring yourself to dislike it .
+tensor(1)	It 's the kind of movie you ca n't quite recommend because it is all windup and not much of a pitch , yet you ca n't bring yourself to dislike it .
 
 tensor(0)	Maybe it 's asking too much , but if a movie is truly going to inspire me , I want a little more than this .
 
@@ -3228,7 +3228,7 @@ tensor(1)	Based on a David Leavitt story , the film shares that writer 's usual 
 
 tensor(0)	National Lampoon 's Van Wilder could be the worst thing to come out of National Lampoon since Class Reunion
 
-tensor(1)	This is a great subject for a movie , but Hollywood has squandered the opportunity , using it as a prop for warmed-over melodrama and the kind of choreographed mayhem that director John Woo has built his career on .
+tensor(0)	This is a great subject for a movie , but Hollywood has squandered the opportunity , using it as a prop for warmed-over melodrama and the kind of choreographed mayhem that director John Woo has built his career on .
 
 tensor(0)	Ecks this one off your must-see list .
 
@@ -3264,7 +3264,7 @@ tensor(1)	Dialogue-heavy and too cerebral for its own good -- or , at any rate ,
 
 tensor(0)	Its over-reliance on genre conventions , character types and formulaic conflict resolutions crushes all the goodwill it otherwise develops .
 
-tensor(1)	As an actor , The Rock is aptly named .
+tensor(0)	As an actor , The Rock is aptly named .
 
 tensor(0)	A mostly tired retread of several other mob tales .
 
@@ -3296,7 +3296,7 @@ tensor(0)	The movie is as far as you can get from racy , to the point where it a
 
 tensor(0)	Once the audience figure out what 's being said , the filmmaker 's relative passivity will make it tough for them to really care .
 
-tensor(1)	There 's nothing provocative about this film save for the ways in which it studiously avoids provoking thought .
+tensor(0)	There 's nothing provocative about this film save for the ways in which it studiously avoids provoking thought .
 
 tensor(1)	The premise for this kegger comedy probably sounded brilliant four six-packs and a pitcher of margaritas in , but the film must have been written ... in the thrall of a vicious hangover .
 
@@ -3402,7 +3402,7 @@ tensor(0)	My response to the film is best described as lukewarm .
 
 tensor(0)	Maybe I found the proceedings a little bit too conventional .
 
-tensor(1)	Too timid to bring a sense of closure to an ugly chapter of the twentieth century .
+tensor(0)	Too timid to bring a sense of closure to an ugly chapter of the twentieth century .
 
 tensor(1)	It 's push-the-limits teen comedy , the type written by people who ca n't come up with legitimate funny , and it 's used so extensively that good bits are hopelessly overshadowed .
 
@@ -3484,7 +3484,7 @@ tensor(0)	Murder and mayhem of this sort quickly becomes monotonous .
 
 tensor(0)	That Zhang would make such a strainingly cute film -- with a blind orphan at its center , no less -- indicates where his ambitions have wandered .
 
-tensor(0)	The streets , shot by cinematographer Michael Ballhaus , may be as authentic as they are mean , but it is nearly impossible to care about what happens on them .
+tensor(1)	The streets , shot by cinematographer Michael Ballhaus , may be as authentic as they are mean , but it is nearly impossible to care about what happens on them .
 
 tensor(0)	Flotsam in the sea of moviemaking , not big enough for us to worry about it causing significant harm and not smelly enough to bother despising .
 
@@ -3510,7 +3510,7 @@ tensor(0)	Even if Britney Spears is really cute , her movie is really bad .
 
 tensor(0)	Big Fat Liar is just futile silliness looking to tap into the kiddie sensibilities .
 
-tensor(1)	Usually when I get this much syrup , I like pancakes to go with it .
+tensor(0)	Usually when I get this much syrup , I like pancakes to go with it .
 
 tensor(0)	All the necessary exposition prevents the picture from rising above your generic sand 'n' sandal adventure .
 
@@ -3564,7 +3564,7 @@ tensor(1)	The best way to hope for any chance of enjoying this film is by loweri
 
 tensor(0)	Then lower them a bit more .
 
-tensor(1)	Cliches are as thick as the cigarette smoke .
+tensor(0)	Cliches are as thick as the cigarette smoke .
 
 tensor(0)	A woozy , roisterous , exhausting mess , and the off-beat casting of its two leads turns out to be as ill-starred as you might expect .
 
