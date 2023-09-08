@@ -59,18 +59,33 @@ class NeuralSentimentClassifier(SentimentClassifier):
         SentimentClassifier.__init__(self)
         self.word_indexer = word_embeddings.word_indexer
         self.loss = nn.CrossEntropyLoss()
-        self.model = NN(word_embeddings, word_embeddings.get_embedding_length(), 32, 2)
+        
+        if isinstance(word_embeddings, (WordEmbeddings, PrefixEmbeddings)):
+            self.embeddings = word_embeddings
+            embedding_length = word_embeddings.get_embedding_length()
+        else:
+            raise ValueError("word_embeddings must be an instance of WordEmbeddings or PrefixEmbeddings")
+
+        self.model = NN(self.embeddings, embedding_length, 32, 2)
 
     def predict(self, ex_words: List[str], has_typos: bool):
         # find the index of each word using the word indexer in the NSC class
         words_idx = []
         for word in ex_words:
-            words_idx.append(max(1, self.word_indexer.index_of(word)))
+            if isinstance(self.embeddings, WordEmbeddings):
+                words_idx.append(max(1, self.word_indexer.index_of(word)))
+            elif isinstance(self.embeddings, PrefixEmbeddings):
+                prefix = word[:3]  # Extract the first 3 characters of the word
+                words_idx.append(max(1, self.word_indexer.index_of(prefix)))
+            else:
+                raise ValueError("Unsupported embedding type")
+
         # create a torch.tensor of the word indexer, this makes for faster GPU times
-        words_tensor=torch.tensor([words_idx])
+        words_tensor = torch.tensor([words_idx])
         # calculate the y_probability using the nn.Module subclass
         y_probabilities = self.model.forward(words_tensor)
         return torch.argmax(y_probabilities)
+
 
     def loss(self, probs, target):
         return self.loss(probs, target)
@@ -81,10 +96,10 @@ def train_deep_averaging_network(args, train_exs: List[SentimentExample], dev_ex
                                  word_embeddings: WordEmbeddings, train_model_for_typo_setting: bool) -> NeuralSentimentClassifier:
                                  
     if train_model_for_typo_setting:
-        classifier = NeuralSentimentClassifier(word_embeddings)
-    else:
         prefix_embeddings = convert_to_prefix_embeddings(word_embeddings)
         classifier = NeuralSentimentClassifier(prefix_embeddings)
+    else:
+        classifier = NeuralSentimentClassifier(word_embeddings)
 
     word_indices = generate_word_indices(train_exs, classifier)
     ADAM = optim.Adam(classifier.model.parameters(), lr=0.001)
@@ -159,14 +174,16 @@ def convert_to_prefix_embeddings(word_embeddings):
     """
     # Create a new indexer for prefixes by considering the first 3 characters of each word
     prefix_indexer = Indexer()
-    for word in word_embeddings.word_indexer.objs:
+    for word_idx in range(len(word_embeddings.word_indexer)):
+        word = word_embeddings.word_indexer.get_object(word_idx)
         prefix = word[:3]  # Extract the first 3 characters of the word
         prefix_indexer.add_and_get_index(prefix)
 
     # Initialize vectors for prefixes
     prefix_vectors = []
-    for word in prefix_indexer.objs:
-        prefix_embedding = word_embeddings.get_embedding(word)
+    for prefix_idx in range(len(prefix_indexer)):
+        prefix = prefix_indexer.get_object(prefix_idx)
+        prefix_embedding = word_embeddings.get_embedding(prefix)
         prefix_vectors.append(prefix_embedding)
 
     # Create a PrefixEmbeddings instance
@@ -176,7 +193,14 @@ def convert_to_prefix_embeddings(word_embeddings):
 class NN(nn.Module):
     def __init__(self, word_embeddings=None, inp=50, hid=32, out=2):
         super(NN, self).__init__()
-        self.embeddings =nn.Embedding.from_pretrained(torch.from_numpy(word_embeddings.vectors), freeze=False) if word_embeddings is not None else None
+
+        if word_embeddings is not None:
+            # Convert word_embeddings.vectors to a NumPy array
+            word_embedding_matrix = np.array(word_embeddings.vectors)
+            self.embeddings = nn.Embedding.from_pretrained(torch.from_numpy(word_embedding_matrix), freeze=False)
+        else:
+            self.embeddings = None
+
         self.V = nn.Linear(inp, hid)
         self.g = nn.Tanh()
         self.W = nn.Linear(hid, out)
@@ -184,7 +208,11 @@ class NN(nn.Module):
         nn.init.xavier_uniform_(self.W.weight)
 
     def forward(self, index):
-        index = self.embeddings(index) if self.embeddings is not None else None
+        if self.embeddings is not None:
+            index = self.embeddings(index)
+        else:
+            index = None
+
         mean = torch.mean(index, dim=1).float()
         output = self.V(mean)
         output = self.g(output)
@@ -194,19 +222,38 @@ class NN(nn.Module):
     
 
 class PrefixEmbeddings:
+    """
+    Wraps an Indexer and a list of 1-D numpy arrays where each position in the list is the vector for the corresponding
+    word in the indexer. The 0 vector is returned if an unknown word is queried.
+    """
     def __init__(self, word_indexer, vectors):
         self.word_indexer = word_indexer
         self.vectors = vectors
 
     def get_initialized_embedding_layer(self, frozen=True):
-        return torch.nn.Embedding.from_pretrained(torch.FloatTensor(self.vectors), freeze=frozen)
+        """
+        :param frozen: True if you want the embedding layer to stay frozen, false to fine-tune embeddings
+        :return: torch.nn.Embedding layer you can use in your network
+        """
+        if self.vectors is not None:
+            # Convert the list of vectors to a NumPy array
+            vector_array = np.array(self.vectors)
+            # Create an nn.Embedding layer from the NumPy array
+            embedding_layer = nn.Embedding.from_pretrained(torch.from_numpy(vector_array), freeze=frozen)
+        else:
+            embedding_layer = None
+        return embedding_layer
 
     def get_embedding_length(self):
         return len(self.vectors[0])
 
     def get_embedding(self, word):
-        # Extract the first 3 characters of the word
-        prefix = word[:3]  
+        """
+        Returns the embedding for the first 3 characters of a given word
+        :param word: The word to look up
+        :return: The UNK vector if the word is not in the Indexer or the vector otherwise
+        """
+        prefix = word[:3]  # Extract the first 3 characters of the word
         word_idx = self.word_indexer.index_of(prefix)
         if word_idx != -1:
             return self.vectors[word_idx]
