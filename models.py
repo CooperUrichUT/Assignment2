@@ -59,7 +59,7 @@ class NeuralSentimentClassifier(SentimentClassifier):
         SentimentClassifier.__init__(self)
         self.word_indexer = word_embeddings.word_indexer
         self.loss = nn.CrossEntropyLoss()
-        self.model = DAN(word_embeddings, word_embeddings.get_embedding_length(), 32, 2)
+        self.model = NN(word_embeddings, word_embeddings.get_embedding_length(), 32, 2)
 
     def predict(self, ex_words: List[str], has_typos: bool):
         # find the index of each word using the word indexer in the NSC class
@@ -80,8 +80,12 @@ class NeuralSentimentClassifier(SentimentClassifier):
 def train_deep_averaging_network(args, train_exs: List[SentimentExample], dev_exs: List[SentimentExample],
                                  word_embeddings: WordEmbeddings, train_model_for_typo_setting: bool) -> NeuralSentimentClassifier:
                                  
+    if train_model_for_typo_setting:
+        classifier = NeuralSentimentClassifier(word_embeddings)
+    else:
+        prefix_embeddings = convert_to_prefix_embeddings(word_embeddings)
+        classifier = NeuralSentimentClassifier(prefix_embeddings)
 
-    classifier = NeuralSentimentClassifier(word_embeddings)
     word_indices = generate_word_indices(train_exs, classifier)
     ADAM = optim.Adam(classifier.model.parameters(), lr=0.001)
     training_set = np.arange(len(train_exs))
@@ -105,6 +109,7 @@ def train_deep_averaging_network(args, train_exs: List[SentimentExample], dev_ex
 
         total_loss /= len(train_exs)
         print("Total loss on epoch %i: %f" % (epoch, total_loss))
+
 
     return classifier
 
@@ -146,9 +151,31 @@ def generate_word_indices(train_exs, ns_classifier):
 
     return word_indices
 
-class DAN(nn.Module):
+def convert_to_prefix_embeddings(word_embeddings):
+    """
+    Converts WordEmbeddings to PrefixEmbeddings by considering only the first 3 characters of each word.
+    :param word_embeddings: An instance of WordEmbeddings
+    :return: An instance of PrefixEmbeddings
+    """
+    # Create a new indexer for prefixes by considering the first 3 characters of each word
+    prefix_indexer = Indexer()
+    for word in word_embeddings.word_indexer.objs:
+        prefix = word[:3]  # Extract the first 3 characters of the word
+        prefix_indexer.add_and_get_index(prefix)
+
+    # Initialize vectors for prefixes
+    prefix_vectors = []
+    for word in prefix_indexer.objs:
+        prefix_embedding = word_embeddings.get_embedding(word)
+        prefix_vectors.append(prefix_embedding)
+
+    # Create a PrefixEmbeddings instance
+    prefix_embeddings = PrefixEmbeddings(prefix_indexer, prefix_vectors)
+    return prefix_embeddings
+
+class NN(nn.Module):
     def __init__(self, word_embeddings=None, inp=50, hid=32, out=2):
-        super(DAN, self).__init__()
+        super(NN, self).__init__()
         self.embeddings =nn.Embedding.from_pretrained(torch.from_numpy(word_embeddings.vectors), freeze=False) if word_embeddings is not None else None
         self.V = nn.Linear(inp, hid)
         self.g = nn.Tanh()
@@ -164,3 +191,24 @@ class DAN(nn.Module):
         output = self.W(output)
         
         return output
+    
+
+class PrefixEmbeddings:
+    def __init__(self, word_indexer, vectors):
+        self.word_indexer = word_indexer
+        self.vectors = vectors
+
+    def get_initialized_embedding_layer(self, frozen=True):
+        return torch.nn.Embedding.from_pretrained(torch.FloatTensor(self.vectors), freeze=frozen)
+
+    def get_embedding_length(self):
+        return len(self.vectors[0])
+
+    def get_embedding(self, word):
+        # Extract the first 3 characters of the word
+        prefix = word[:3]  
+        word_idx = self.word_indexer.index_of(prefix)
+        if word_idx != -1:
+            return self.vectors[word_idx]
+        else:
+            return self.vectors[self.word_indexer.index_of("UNK")]
