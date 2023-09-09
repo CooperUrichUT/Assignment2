@@ -4,10 +4,7 @@
 import torch
 import torch.nn as nn
 from torch import optim
-from torch.utils.data import DataLoader, TensorDataset
-from torch.nn.utils.rnn import pad_sequence
 import numpy as np
-import random
 from sentiment_data import *
 
 
@@ -65,8 +62,7 @@ class NeuralSentimentClassifier(SentimentClassifier):
         # find the index of each word using the word indexer in the NSC class
         words_idx = []
         for word in ex_words:
-            # if has_typos:
-            #     word = word[:3]
+
             words_idx.append(max(1, self.word_indexer.index_of(word)))
         # create a torch.tensor of the word indexer, this makes for faster GPU times
         words_tensor=torch.tensor([words_idx])
@@ -90,17 +86,17 @@ def train_deep_averaging_network(args, train_exs: List[SentimentExample], dev_ex
         # Use WordEmbeddings for regular word-level evaluation
         classifier = NeuralSentimentClassifier(word_embeddings)
     
-    word_indices = generate_word_indices(train_exs, classifier,  train_model_for_typo_setting)
-    word_indices_dev = generate_word_indices(dev_exs, classifier, train_model_for_typo_setting)
+    word_indices = generate_word_indices(train_exs, classifier,  not train_model_for_typo_setting)
+    word_indices_dev = generate_word_indices(dev_exs, classifier,  train_model_for_typo_setting)
     training_set = np.arange(len(train_exs))
     dev_set = np.arange(len(dev_exs))
 
-    word_indices = generate_word_indices(train_exs, classifier,  train_model_for_typo_setting)
     ADAM = optim.Adam(classifier.model.parameters(), lr=0.001)
-    epochs = 15
+    epochs = 40
 
     for epoch in range(epochs):
         np.random.shuffle(training_set)
+        np.random.shuffle(dev_set)
         total_loss = 0.0
         batch_x = []
         batch_y = []
@@ -171,8 +167,8 @@ def generate_word_indices(train_exs, ns_classifier, train_model_for_typo_setting
         words = train_exs[i].words
         index_list = []
         for word in words:
-            # if train_model_for_typo_setting:
-            #     word = word[:3]
+            if train_model_for_typo_setting:
+                word = word[:3]
 
             idx = ns_classifier.word_indexer.index_of(word)
             index_list.append(max(idx, 1))
