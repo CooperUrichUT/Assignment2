@@ -92,7 +92,7 @@ def train_deep_averaging_network(args, train_exs: List[SentimentExample], dev_ex
     dev_set = np.arange(len(dev_exs))
 
     ADAM = optim.Adam(classifier.model.parameters(), lr=0.001)
-    epochs = 40
+    epochs = 15
 
     for epoch in range(epochs):
         np.random.shuffle(training_set)
@@ -179,7 +179,7 @@ def generate_word_indices(train_exs, ns_classifier, train_model_for_typo_setting
 class DAN(nn.Module):
     def __init__(self, word_embeddings=None, inp=50, hid=32, out=2):
         super(DAN, self).__init__()
-        self.embeddings = word_embeddings.get_initialized_embedding_layer() if word_embeddings is not None else None
+        self.embeddings = nn.Embedding.from_pretrained(torch.from_numpy(word_embeddings.vectors), freeze=False) if word_embeddings is not None else None
         self.V = nn.Linear(inp, hid)
         self.g = nn.Tanh()
         self.W = nn.Linear(hid, out)
