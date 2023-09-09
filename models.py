@@ -92,7 +92,7 @@ def train_deep_averaging_network(args, train_exs: List[SentimentExample], dev_ex
     else:
         word_indices = generate_word_indices(train_exs, classifier,  train_model_for_typo_setting)
         word_indices_dev = generate_word_indices(dev_exs, classifier,  train_model_for_typo_setting)
-        
+
     training_set = np.arange(len(train_exs))
     dev_set = np.arange(len(dev_exs))
 
@@ -118,25 +118,24 @@ def train_deep_averaging_network(args, train_exs: List[SentimentExample], dev_ex
 
         total_loss /= len(train_exs)
         print("Total loss on epoch %i: %f" % (epoch, total_loss))
-        if train_model_for_typo_setting:
-            dev_loss = 0.0
-            dev_correct = 0
-            for idx in dev_set:
-                dev_x, dev_y = create_batch(idx, [], [], word_indices_dev, dev_exs, padding=50)
-                dev_x = np.array(dev_x)
-                dev_y = np.array(dev_y)
+        dev_loss = 0.0
+        dev_correct = 0
+        for idx in dev_set:
+            dev_x, dev_y = create_batch(idx, [], [], word_indices_dev, dev_exs, padding=50)
+            dev_x = np.array(dev_x)
+            dev_y = np.array(dev_y)
 
-                classifier.model.eval()
-                with torch.no_grad():
-                    dev_x = torch.tensor(dev_x, dtype=torch.long)
-                    dev_probs = classifier.model.forward(dev_x)
-                    dev_target = torch.tensor(dev_y, dtype=torch.long)
-                    dev_loss += classifier.loss(dev_probs, dev_target).item()
-                    dev_correct += (torch.argmax(dev_probs, dim=1) == dev_target).sum().item()
+            classifier.model.eval()
+            with torch.no_grad():
+                dev_x = torch.tensor(dev_x, dtype=torch.long)
+                dev_probs = classifier.model.forward(dev_x)
+                dev_target = torch.tensor(dev_y, dtype=torch.long)
+                dev_loss += classifier.loss(dev_probs, dev_target).item()
+                dev_correct += (torch.argmax(dev_probs, dim=1) == dev_target).sum().item()
 
-            dev_loss /= len(dev_exs)
-            dev_accuracy = dev_correct / len(dev_exs)
-            print("Total loss on epoch %i (Dev): %f" % (epoch, dev_loss))
+        dev_loss /= len(dev_exs)
+        dev_accuracy = dev_correct / len(dev_exs)
+        print("Total loss on epoch %i (Dev): %f" % (epoch, dev_loss))
 
     return classifier
 
