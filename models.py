@@ -55,7 +55,7 @@ class NeuralSentimentClassifier(SentimentClassifier):
     method and you can optionally override predict_all if you want to use batching at inference time (not necessary,
     but may make things faster!)
     """
-    def __init__(self, word_embeddings: WordEmbeddings):
+    def __init__(self, word_embeddings):
         SentimentClassifier.__init__(self)
         self.word_indexer = word_embeddings.word_indexer
         self.loss = nn.CrossEntropyLoss()
@@ -65,9 +65,8 @@ class NeuralSentimentClassifier(SentimentClassifier):
         # find the index of each word using the word indexer in the NSC class
         words_idx = []
         for word in ex_words:
-            if has_typos:
-                word = word[:3]
-                
+            # if has_typos:
+            #     word = word[:3]
             words_idx.append(max(1, self.word_indexer.index_of(word)))
         # create a torch.tensor of the word indexer, this makes for faster GPU times
         words_tensor=torch.tensor([words_idx])
@@ -84,10 +83,20 @@ def train_deep_averaging_network(args, train_exs: List[SentimentExample], dev_ex
                                  word_embeddings: WordEmbeddings, train_model_for_typo_setting: bool) -> NeuralSentimentClassifier:
                                  
 
-    classifier = NeuralSentimentClassifier(word_embeddings)
-    word_indices = generate_word_indices(train_exs, classifier, train_model_for_typo_setting)
-    ADAM = optim.Adam(classifier.model.parameters(), lr=0.001)
+    if train_model_for_typo_setting:
+        # Use PrefixEmbeddings for character-level evaluation
+        classifier = NeuralSentimentClassifier(PrefixEmbeddings(word_embeddings.word_indexer, word_embeddings.vectors))
+    else:
+        # Use WordEmbeddings for regular word-level evaluation
+        classifier = NeuralSentimentClassifier(word_embeddings)
+    
+    word_indices = generate_word_indices(train_exs, classifier,  train_model_for_typo_setting)
+    word_indices_dev = generate_word_indices(dev_exs, classifier, train_model_for_typo_setting)
     training_set = np.arange(len(train_exs))
+    dev_set = np.arange(len(dev_exs))
+
+    word_indices = generate_word_indices(train_exs, classifier,  train_model_for_typo_setting)
+    ADAM = optim.Adam(classifier.model.parameters(), lr=0.001)
     epochs = 15
 
     for epoch in range(epochs):
@@ -108,6 +117,25 @@ def train_deep_averaging_network(args, train_exs: List[SentimentExample], dev_ex
 
         total_loss /= len(train_exs)
         print("Total loss on epoch %i: %f" % (epoch, total_loss))
+
+        dev_loss = 0.0
+        dev_correct = 0
+        for idx in dev_set:
+            dev_x, dev_y = create_batch(idx, [], [], word_indices_dev, dev_exs, padding=50)
+            dev_x = np.array(dev_x)
+            dev_y = np.array(dev_y)
+
+            classifier.model.eval()
+            with torch.no_grad():
+                dev_x = torch.tensor(dev_x, dtype=torch.long)
+                dev_probs = classifier.model.forward(dev_x)
+                dev_target = torch.tensor(dev_y, dtype=torch.long)
+                dev_loss += classifier.loss(dev_probs, dev_target).item()
+                dev_correct += (torch.argmax(dev_probs, dim=1) == dev_target).sum().item()
+
+        dev_loss /= len(dev_exs)
+        dev_accuracy = dev_correct / len(dev_exs)
+        print("Total loss on epoch %i (Dev): %f" % (epoch, dev_loss))
 
     return classifier
 
@@ -143,8 +171,8 @@ def generate_word_indices(train_exs, ns_classifier, train_model_for_typo_setting
         words = train_exs[i].words
         index_list = []
         for word in words:
-            if train_model_for_typo_setting:
-                word = word[:3]
+            # if train_model_for_typo_setting:
+            #     word = word[:3]
 
             idx = ns_classifier.word_indexer.index_of(word)
             index_list.append(max(idx, 1))
@@ -184,9 +212,17 @@ class PrefixEmbeddings:
         return len(self.vectors[0])
 
     def get_embedding(self, word):
-        prefix = word[:3]  
-        word_idx = self.word_indexer.index_of(prefix)
-        if word_idx != -1:
-            return self.vectors[word_idx]
-        else:
-            return self.vectors[self.word_indexer.index_of("UNK")]
+        # Use character-level prefixes
+        prefix = word[:3]
+        char_indices = [self.word_indexer.index_of(char) for char in prefix]
+        
+        # Handle unknown characters
+        char_indices = [idx if idx != -1 else self.word_indexer.index_of("UNK") for idx in char_indices]
+        
+        # Get embeddings for character indices
+        embeddings = [self.vectors[idx] for idx in char_indices]
+        
+        # Calculate the mean of character embeddings
+        mean_embedding = torch.mean(torch.stack(embeddings), dim=0)
+        
+        return mean_embedding
